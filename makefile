@@ -5,4 +5,4 @@ run:
 build-tools:
 	@javac ./tool/GenerateAst.java 
 run-tools:
-	@java tool/GenerateAst 
+	@java tool/GenerateAst loxinterpreter

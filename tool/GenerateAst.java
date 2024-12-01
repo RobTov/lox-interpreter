@@ -25,6 +25,8 @@ public class GenerateAst {
         String path = outputDir + "/" + baseName + ".java";
         PrintWriter writer = new PrintWriter(path, "UTF-8");
 
+        writer.println("// This class was generated automatically by tool.GenerateAst class");
+
         writer.println("package loxinterpreter;");
         writer.println();
         writer.println("import java.util.List;");
@@ -79,7 +81,7 @@ public class GenerateAst {
         // Visitor pattern
         writer.println();
         writer.println("    @Override");
-        writer.println("    <R> R accept(Visitor<R> visitor {)");
+        writer.println("    <R> R accept(Visitor<R> visitor){");
         writer.println("      return visitor.visit" + className + baseName + "(this);");
         writer.println("    }");
 
