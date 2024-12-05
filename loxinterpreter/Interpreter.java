@@ -35,6 +35,17 @@ public class Interpreter implements Expr.Visitor<Object> {
         return null;
     }
 
+    // * False and nil are falsey and everything else is thruthy
+    private boolean isTruthy(Object object) {
+        if (object == null) {
+            return false;
+        }
+
+        if (object instanceof Boolean)
+            return (boolean) object;
+        return true;
+    }
+
     private Object evaluate(Expr expr) {
         return expr.accept(this);
     }
