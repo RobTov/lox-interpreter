@@ -1,7 +1,5 @@
 package loxinterpreter;
 
-import static loxinterpreter.TokenType.LESS;
-
 public class Interpreter implements Expr.Visitor<Object> {
 
     void interpret(Expr expression) {
