@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 public class LoxClass implements LoxCallable {
-    private final String name;
+    final String name;
     private final LoxClass superclass;
     private final Map<String, LoxFunction> methods;
 

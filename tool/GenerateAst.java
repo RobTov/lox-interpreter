@@ -75,33 +75,45 @@ public class GenerateAst {
 
         for (String type : types) {
             String typeName = type.split(":")[0].trim();
-            writer.println("  R visit" + typeName + baseName + "(" +
+            writer.println("    R visit" + typeName + baseName + "(" +
                     typeName + " " + baseName.toLowerCase() + ");");
         }
 
         writer.println("  }");
     }
 
-    private static void defineType(PrintWriter writer, String baseName, String className, String fieldList) {
-        writer.println("  static class " + className + " extends " + baseName + " {");
+    private static void defineType(
+            PrintWriter writer, String baseName,
+            String className, String fieldList) {
 
-        // Constructor
+        writer.println("  static class " + className + " extends " +
+                baseName + " {");
+
+        // Hack. Stmt.Class has such a long constructor that it overflows
+        // the line length on the Appendix II page. Wrap it.
+        if (fieldList.length() > 64) {
+            fieldList = fieldList.replace(", ", ",\n          ");
+        }
+
+        // Constructor.
         writer.println("    " + className + "(" + fieldList + ") {");
 
-        // Store parameters in fields
+        fieldList = fieldList.replace(",\n          ", ", ");
+        // Store parameters in fields.
         String[] fields = fieldList.split(", ");
         for (String field : fields) {
             String name = field.split(" ")[1];
-            writer.println("    this." + name + " = " + name + ";");
+            writer.println("      this." + name + " = " + name + ";");
         }
 
         writer.println("    }");
 
-        // Visitor pattern
+        // Visitor pattern.
         writer.println();
         writer.println("    @Override");
-        writer.println("    <R> R accept(Visitor<R> visitor){");
-        writer.println("      return visitor.visit" + className + baseName + "(this);");
+        writer.println("    <R> R accept(Visitor<R> visitor) {");
+        writer.println("      return visitor.visit" +
+                className + baseName + "(this);");
         writer.println("    }");
 
         // Fields.
@@ -111,5 +123,7 @@ public class GenerateAst {
         }
 
         writer.println("  }");
+        writer.println("//< " +
+                baseName.toLowerCase() + "-" + className.toLowerCase());
     }
 }
